@@ -73,3 +73,10 @@ Some directions for extending the language or the interpreter:
 - **Tail-call optimization** — `ev` currently recurses on the host stack for every call; without TCO, deep recursion (e.g. numeric loops) can exhaust the stack.
 - **A dedicated reader/parser** — right now expressions are written as "host" Scheme s-expressions (via `quote`); a parser that reads its own textual syntax would make the project a more self-contained interpreter, less dependent on its host.
 - **More examples in `tests.scm`** — e.g. the Y-combinator or other forms of recursion without `letrec`, to showcase the language's expressiveness even within its limits.
+
+
+
+
+---
+
+Dedicated to my mates.
