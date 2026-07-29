@@ -1,4 +1,4 @@
-# matescm
+# Mate Scheme
 
 A tiny Scheme interpreter, written in Scheme, in about 40 lines of code. It's a toy/educational "meta-circular interpreter": it defines a very minimal language and evaluates it through a classic tree-walking interpreter (`ev`), with no separate parsing or compilation phase — expressions are just s-expressions read by the host Scheme.
 
