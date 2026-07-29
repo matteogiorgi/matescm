@@ -9,6 +9,8 @@ A tiny Scheme interpreter, written in Scheme, in about 40 lines of code. It's a 
 
 - [`mate.scm`](mate.scm) — the interpreter: environment representation, `bind`, `ev`, and the global environment with the available primitives.
 - [`tests.scm`](tests.scm) — test/showcase suite: loads `mate.scm` and runs a series of example expressions, checking each result against an expected value and printing a report.
+- [`matescm`](matescm) — executable runner: loads `mate.scm` and evaluates every top-level expression from a file given on the command line, printing `expression => result` for each.
+- [`demo.lisp`](demo.lisp) — a showcase file for `matescm`: a tour of the language's features, from arithmetic up to recursion via `letrec` and via the Y (Z) combinator.
 
 
 
@@ -56,6 +58,32 @@ guile
              global))
 ```
 
+To run a file of toy-language expressions and see each result, use `matescm` (a small executable Guile script, no `quote` needed — the file is read directly as data):
+
+```bash
+./matescm demo.lisp
+```
+
+Any file works, not just `demo.lisp`: `matescm` just reads one top-level expression at a time from the given path and evaluates each in `global`, so it doubles as a REPL-less way to try out your own snippets.
+
+`matescm` is a plain executable text file, not a compiled binary. It opens with the classic portable shebang trick for Guile scripts:
+
+```sh
+#!/bin/sh
+exec guile -q --no-auto-compile -s "$0" "$@"
+!#
+```
+
+`/bin/sh` runs first and immediately `exec`s into `guile -s`, passing itself (`$0`) as the script to run and forwarding any extra arguments (`$@`); the `!#` line closes that leading block so Guile's reader treats it as a comment and continues with the Scheme code below it. This avoids hardcoding where `guile` lives on the `$PATH`. The rest of the file is ordinary Guile: it finds its own directory via `(command-line)` to `load` `mate.scm` from there (not from the caller's working directory), then reads and evaluates each expression from the file given as an argument.
+
+To run `matescm` from anywhere without the leading `./`, symlink it into a directory on your `PATH`, e.g. `~/.local/bin`:
+
+```bash
+ln -s "$(pwd)/matescm" ~/.local/bin/matescm
+```
+
+With that in place (and `~/.local/bin` on your `$PATH`), `matescm demo.lisp` works from any directory, system-wide for your user.
+
 
 
 
@@ -72,7 +100,7 @@ Some directions for extending the language or the interpreter:
 - **Better error messages** — including the position within the original expression, not just the name of the unbound variable.
 - **Tail-call optimization** — `ev` currently recurses on the host stack for every call; without TCO, deep recursion (e.g. numeric loops) can exhaust the stack.
 - **A dedicated reader/parser** — right now expressions are written as "host" Scheme s-expressions (via `quote`); a parser that reads its own textual syntax would make the project a more self-contained interpreter, less dependent on its host.
-- **More examples in `tests.scm`** — e.g. the Y-combinator or other forms of recursion without `letrec`, to showcase the language's expressiveness even within its limits.
+- **More examples in `tests.scm` and `demo.lisp`** — `demo.lisp` already shows recursion without `letrec` via the Y (Z) combinator; more such examples would further showcase the language's expressiveness even within its limits.
 
 
 
