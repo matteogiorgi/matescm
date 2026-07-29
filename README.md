@@ -74,11 +74,12 @@ exec guile -q --no-auto-compile -s "$0" "$@"
 !#
 ```
 
-`/bin/sh` runs first and immediately `exec`s into `guile -s`, passing itself (`$0`) as the script to run and forwarding any extra arguments (`$@`); the `!#` line closes that leading block so Guile's reader treats it as a comment and continues with the Scheme code below it. This avoids hardcoding where `guile` lives on the `$PATH`. The rest of the file is ordinary Guile: it finds its own directory via `(command-line)` to `load` `mate.scm` from there (not from the caller's working directory), then reads and evaluates each expression from the file given as an argument.
+`/bin/sh` runs first — a fixed path present on virtually every Unix system — and immediately `exec`s into `guile -s`, resolved via `$PATH`, passing itself (`$0`) as the script to run and forwarding any extra arguments (`$@`); the `!#` line closes that leading block so Guile's reader treats it as a comment and continues with the Scheme code below it. This two-line indirection is the standard portable shebang trick for Guile scripts: a plain `#!/usr/bin/env guile ...` shebang can't reliably take multiple flags (like `-q --no-auto-compile -s` here) on every system, since the kernel passes everything after the interpreter path as a single, unsplit argument. The rest of the file is ordinary Guile: it finds its own directory via `(command-line)` to `load` `mate.scm` from there (not from the caller's working directory), then reads and evaluates each expression from the file given as an argument.
 
-To run `matescm` from anywhere without the leading `./`, symlink it into a directory on your `PATH`, e.g. `~/.local/bin`:
+To run `matescm` from anywhere without the leading `./`, symlink it into a directory on your `PATH`, e.g. `~/.local/bin` (from the repo root, creating the directory first if it doesn't exist yet):
 
 ```bash
+mkdir -p ~/.local/bin
 ln -s "$(pwd)/matescm" ~/.local/bin/matescm
 ```
 
