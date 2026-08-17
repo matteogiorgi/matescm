@@ -7,10 +7,10 @@ A tiny Scheme interpreter, written in Scheme, in about 40 lines of code. It's a 
 
 ## Repo layout
 
-- [`mate.scm`](mate.scm) — the interpreter: environment representation, `bind`, `ev`, and the global environment with the available primitives.
-- [`tests.scm`](tests.scm) — test/showcase suite: loads `mate.scm` and runs a series of example expressions, checking each result against an expected value and printing a report.
-- [`matescm`](matescm) — executable runner: loads `mate.scm` and evaluates every top-level expression from a file given on the command line, printing `expression => result` for each.
-- [`demo.lisp`](demo.lisp) — a showcase file for `matescm`: a tour of the language's features, from arithmetic up to recursion via `letrec` and via the Y (Z) combinator.
+- [`mate.scm`](https://github.com/matteogiorgi/matescm/blob/main/mate.scm) — the interpreter: environment representation, `bind`, `ev`, and the global environment with the available primitives.
+- [`tests.scm`](https://github.com/matteogiorgi/matescm/blob/main/tests.scm) — test/showcase suite: loads `mate.scm` and runs a series of example expressions, checking each result against an expected value and printing a report.
+- [`matescm`](https://github.com/matteogiorgi/matescm/blob/main/matescm) — executable runner: loads `mate.scm` and evaluates every top-level expression from a file given on the command line, printing `expression => result` for each.
+- [`demo.lisp`](https://github.com/matteogiorgi/matescm/blob/main/demo.lisp) — a showcase file for `matescm`: a tour of the language's features, from arithmetic up to recursion via `letrec` and via the Y (Z) combinator.
 
 
 
