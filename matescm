@@ -1,0 +1,40 @@
+#!/bin/sh
+exec guile -q --no-auto-compile -s "$0" "$@"
+!#
+
+;; matescm: run a .lisp file through the mate.scm interpreter.
+;;
+;; A "file" here is just a sequence of top-level toy-language
+;; expressions, one after another, written as plain s-expressions
+;; (no `quote` needed — this reader treats the whole file as data,
+;; the same way the host reader would). Each one is read, evaluated
+;; with `ev` in `global`, and its source + result are printed, so
+;; running the file doubles as a little live demo.
+;;
+;; Usage: ./matescm demo.lisp
+
+(let ((dir (dirname (car (command-line)))))
+  (load (string-append dir "/mate.scm")))
+
+(define (run-file path)
+  (call-with-input-file path
+    (lambda (port)
+      (let loop ((form (read port)))
+        (if (eof-object? form)
+          #t
+          (begin
+            (write form)
+            (display " => ")
+            (display (ev form global))
+            (newline)
+            (loop (read port))))))))
+
+(define (main args)
+  (if (null? args)
+    (begin
+      (display "usage: matescm <file.lisp>")
+      (newline)
+      (exit 1))
+    (run-file (car args))))
+
+(main (cdr (command-line)))
