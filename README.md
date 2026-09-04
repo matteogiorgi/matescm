@@ -1,6 +1,6 @@
 # Mate Scheme
 
-A tiny Scheme interpreter, written in Scheme, in about 40 lines of code. It's a toy/educational "meta-circular interpreter": it defines a very minimal language and evaluates it through a classic tree-walking interpreter (`ev`), with no separate parsing or compilation phase — expressions are just s-expressions read by the host Scheme.
+A tiny Scheme interpreter, written in Scheme, in about 35 lines of code. It's a toy/educational "meta-circular interpreter": it defines a very minimal language and evaluates it through a classic tree-walking interpreter (`ev`), with no separate parsing or compilation phase — expressions are just s-expressions read by the host Scheme.
 
 
 
@@ -11,6 +11,7 @@ A tiny Scheme interpreter, written in Scheme, in about 40 lines of code. It's a 
 - [`tests.scm`](https://github.com/matteogiorgi/matescm/blob/main/tests.scm) — test/showcase suite: loads `mate.scm` and runs a series of example expressions, checking each result against an expected value and printing a report.
 - [`matescm`](https://github.com/matteogiorgi/matescm/blob/main/matescm) — executable runner: loads `mate.scm` and evaluates every top-level expression from a file given on the command line, printing `expression => result` for each.
 - [`demo.lisp`](https://github.com/matteogiorgi/matescm/blob/main/demo.lisp) — a showcase file for `matescm`: a tour of the language's features, from arithmetic up to recursion via `letrec` and via the Y (Z) combinator.
+- [`LICENSE`](https://github.com/matteogiorgi/matescm/blob/main/LICENSE) — MIT License.
 
 
 
@@ -88,20 +89,20 @@ With that in place (and `~/.local/bin` on your `$PATH`), `matescm demo.lisp` wor
 
 
 
-## Possible future work
+## TODO
 
 Some directions for extending the language or the interpreter:
 
-- **`cond`/`begin`** — a multi-clause `cond` and a `begin` for sequencing multiple expressions (currently `let`/`lambda` bodies are a single expression, with no way to run intermediate side effects).
-- **Multi-binding `let`** — today `let` binds a single name; it would be natural to extend it to multiple `(name val)` pairs like standard Scheme, reusing `bind`, which already supports lists.
-- **Native booleans and types** — a real boolean type (or at least `#t`/`#f`) instead of the "0 = false" convention, plus strings and/or lists (cons cells) handled by the interpreted language itself.
-- **Top-level `define`** — being able to add functions/values to `global` without nesting everything inside `letrec`/`let`.
-- **`set!`** — mutating already-bound variables, reusing the boxes already present in the environment.
-- **Mutual recursion** — the current `letrec` only binds one name, so two functions can't call each other; a `letrec*` or a multi-binding `letrec` would fix this.
-- **Better error messages** — including the position within the original expression, not just the name of the unbound variable.
-- **Tail-call optimization** — `ev` currently recurses on the host stack for every call; without TCO, deep recursion (e.g. numeric loops) can exhaust the stack.
-- **A dedicated reader/parser** — right now expressions are written as "host" Scheme s-expressions (via `quote`); a parser that reads its own textual syntax would make the project a more self-contained interpreter, less dependent on its host.
-- **More examples in `tests.scm` and `demo.lisp`** — `demo.lisp` already shows recursion without `letrec` via the Y (Z) combinator; more such examples would further showcase the language's expressiveness even within its limits.
+- [ ] **`cond`/`begin`** — a multi-clause `cond` and a `begin` for sequencing multiple expressions (currently `let`/`lambda` bodies are a single expression, with no way to run intermediate side effects).
+- [ ] **Multi-binding `let`** — today `let` binds a single name; it would be natural to extend it to multiple `(name val)` pairs like standard Scheme, reusing `bind`, which already supports lists.
+- [ ] **Native booleans and types** — a real boolean type (or at least `#t`/`#f`) instead of the "0 = false" convention, plus strings and/or lists (cons cells) handled by the interpreted language itself.
+- [ ] **Top-level `define`** — being able to add functions/values to `global` without nesting everything inside `letrec`/`let`.
+- [ ] **`set!`** — mutating already-bound variables, reusing the boxes already present in the environment.
+- [ ] **Mutual recursion** — the current `letrec` only binds one name, so two functions can't call each other; a `letrec*` or a multi-binding `letrec` would fix this.
+- [ ] **Better error messages** — including the position within the original expression, not just the name of the unbound variable.
+- [ ] **Tail-call optimization** — `ev` currently recurses on the host stack for every call; without TCO, deep recursion (e.g. numeric loops) can exhaust the stack.
+- [ ] **A dedicated reader/parser** — right now expressions are written as "host" Scheme s-expressions (via `quote`); a parser that reads its own textual syntax would make the project a more self-contained interpreter, less dependent on its host.
+- [ ] **More examples in `tests.scm` and `demo.lisp`** — `demo.lisp` already shows recursion without `letrec` via the Y (Z) combinator; more such examples would further showcase the language's expressiveness even within its limits.
 
 
 
