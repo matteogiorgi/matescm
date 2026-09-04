@@ -107,6 +107,7 @@ Some directions for extending the language or the interpreter:
 
 
 
----
+&nbsp;
 
-Dedicated to my mates.
+*Dedicated to my mates.*
+{: style="opacity:0.6;"}
